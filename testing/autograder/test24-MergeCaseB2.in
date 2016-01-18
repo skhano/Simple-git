@@ -1,0 +1,97 @@
+# Test case B: Any files that have been modified in the current branch but not in the given branch since the split point should stay as they are.
+
+# Switched length b/w curr and merge
+
+############################
+
++ m1.txt originals/m1.txt
++ m2.txt originals/m2.txt
++ m3.txt originals/m3.txt
++ m4.txt originals/m4.txt
++ m5.txt originals/m5.txt
++ c1.txt originals/c1.txt
++ c2.txt originals/c2.txt
++ c3.txt originals/c3.txt
++ c4.txt originals/c4.txt
++ c5.txt originals/c5.txt
+
+############################
+> init
+<<<
++ foo.txt originals/foo.txt
+> add foo.txt
+<<<
++ barr.txt originals/barr.txt
+> add barr.txt
+<<<
+> commit "initial set up"
+<<<
+############################
++ foo.txt originals/barr.txt
+> add foo.txt
+<<<
++ barr.txt originals/foo.txt
+> add barr.txt
+<<<
+> commit "split point version 0 of foo.txt and barr.txt"
+<<<
+############################
+> branch merging
+<<<
+############################
+> branch curr
+<<<
+############################
+> checkout curr
+<<<
++ foo.txt originals/m1.txt
+> add foo.txt
+<<<
+> commit "m1"
+<<<
+#############
++ foo.txt originals/m2.txt
+> add foo.txt
+<<<
+> commit "m2"
+<<<
+#############
++ foo.txt originals/m3.txt
+> add foo.txt
+<<<
+> commit "m3"
+<<<
+#############
++ foo.txt originals/m4.txt
+> add foo.txt
+<<<
++ foobarr.txt originals/foobarr.txt
+> add foobarr.txt
+<<<
+> commit "m4 and foobarr and added foobarr"
+<<<
+E foobarr.txt
+############################
+> checkout merging
+<<<
++ barr.txt originals/c1.txt
+> add barr.txt
+<<<
+> commit "c1"
+<<<
+#############
++ barr.txt originals/c2.txt
+> add barr.txt
+<<<
+> commit "c2"
+<<<
+= foo.txt originals/barr.txt
+############################
+> checkout curr
+<<<
+> merge merging
+<<<
+
+##### CASE B ###############
+E foo.txt
+= foo.txt originals/m4.txt

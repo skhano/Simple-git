@@ -1,0 +1,26 @@
+# Test the ancestor message for the merge command.
+> init
+<<<
++ wug.txt wug.txt
++ notwug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "added wug"
+<<<
+> branch merging
+<<<
+> add notwug.txt
+<<<
+> commit "added notwug"
+<<<
+> merge merging
+Given branch is an ancestor of the current branch.
+<<<*
++ notwug.txt wug.txt
+> add notwug.txt
+<<<
+> commit "changed notwug"
+<<<
+> merge merging
+Given branch is an ancestor of the current branch.
+<<<*

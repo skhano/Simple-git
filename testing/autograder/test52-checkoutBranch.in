@@ -1,0 +1,116 @@
+# Checking out a branch.
+> init
+<<<
+D DATE "\d\d\d\d-\d\d-\d\d\s+\d\d:\d\d:\d\d"
+D COMMIT_HEAD "Commit ([a-f0-9]+)[ \t]*\n${DATE}"
+# A full log entry.  Captures the entry. Assume logs messages don't contain
+# ===
+D COMMIT_LOG "(===[ ]*\nCommit [a-f0-9]+[ ]*\n${DATE}[ ]*\n(?:.|\n)*?(?=\Z|\n===))"
+# An arbitrary line of text (works even with ?s)
+D ARBLINE "[^\n]*(?=\n|\Z)"
+# Zero or more arbitrary full lines of text.
+D ARBLINES "(?:(?:.|\n)*(?:\n|\Z)|\A|\Z)"
++ wug.txt wug.txt
++ notwug.txt notwug.txt
++ foo.txt foo.txt
++ barr.txt barr.txt
+> add wug.txt
+<<<
+> add notwug.txt
+<<<
+> commit "Two files"
+<<<
+> add barr.txt
+<<<
+> commit "Added barr"
+<<<
+> log
+===
+${COMMIT_HEAD}
+${ARBLINES}
+<<<*
+D OTHR "${1}"
+######################
+> branch other
+<<<
++ wug.txt notwug.txt
+> add foo.txt
+<<<
+> add wug.txt
+<<<
+> rm barr.txt
+<<<
+> status
+=== Branches ===
+\*master
+other
+
+=== Staged Files ===
+foo.txt
+wug.txt
+
+=== Removed Files ===
+barr.txt
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+<<<*
+> commit "Added foo rm barr change wug to notwug"
+<<<
+= wug.txt notwug.txt
+* barr.txt
+E foo.txt
+######################
+> checkout other
+<<<
+= wug.txt wug.txt
+* foo.txt
+= notwug.txt notwug.txt
+E barr.txt
+> status
+=== Branches ===
+master
+\*other
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+<<<*
+> checkout other
+No need to checkout the current branch.
+<<<*
+> checkout dsafkjaslk
+No such branch exists.
+<<<*
+########################
+> checkout master
+<<<
+E foo.txt
+= wug.txt notwug.txt
+* barr.txt
++ barr.txt barr.txt
+> status
+=== Branches ===
+\*master
+other
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+barr.txt
+
+<<<*
+> checkout other
+There is an untracked file in the way; delete it or add it first.
+<<<*

@@ -1,0 +1,80 @@
+
+# Test case H: Both are different from other (not in S).
+
+############################
+
++ m1.txt originals/m1.txt
++ m2.txt originals/m2.txt
++ m3.txt originals/m3.txt
++ m4.txt originals/m4.txt
++ m5.txt originals/m5.txt
++ c1.txt originals/c1.txt
++ c2.txt originals/c2.txt
++ c3.txt originals/c3.txt
++ c4.txt originals/c4.txt
++ c5.txt originals/c5.txt
+
+############################
+> init
+<<<
++ foobarr.txt originals/foobarr.txt
+> add foobarr.txt
+<<<
+> commit "split point with foobarr and nothing else"
+<<<
+E foobarr.txt
+* foo.txt
+* barr.txt
+############################
+> branch merging
+<<<
+############################
+> branch curr
+<<<
+############################
+> checkout merging
+<<<
++ foo.txt originals/m1.txt
+> add foo.txt
+<<<
+> commit "m1"
+<<<
+#############
++ foo.txt originals/m2.txt
+> add foo.txt
+<<<
+> commit "m2"
+<<<
+#############
++ foo.txt originals/m3.txt
+> add foo.txt
+<<<
+> commit "m3"
+<<<
+#############
++ foo.txt originals/m4.txt
+> add foo.txt
+<<<
+> commit "m4"
+<<<
+############################
+> checkout curr
+<<<
++ foo.txt originals/c1.txt
+> add foo.txt
+<<<
+> commit "c1"
+<<<
+#############
++ foo.txt originals/c2.txt
+> add foo.txt
+<<<
+> commit "c2 rm foobarr"
+<<<
+############################
+> merge merging
+Encountered a merge conflict.
+<<<
+
+##### CASE H ###############
+= foo.txt originals/c2m4conflict.txt

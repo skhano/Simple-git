@@ -1,0 +1,28 @@
+I have successfully passed all of my tests, but I get this error after ‘make check’:
+
+Ran 24 tests. All passed.
+make[1]: Leaving directory `/home/cc/cs61b/fa15/class/cs61b-mo/repo2/proj3/testing'
+make -C gitlet unit
+make[1]: Entering directory `/home/cc/cs61b/fa15/class/cs61b-mo/repo2/proj3/gitlet'
+java -ea -cp "..:.:/home/ff/cs61b/lib/*:;..;.:/home/ff/cs61b/lib/*" gitlet.UnitTest
+File does not exist.
+make[1]: Leaving directory `/home/cc/cs61b/fa15/class/cs61b-mo/repo2/proj3/gitlet'
+
+
+
+My login in cs61b-mo. I am not sure what I should do here, is this something that will cause me to lose points. I have a UnitTest.java.
+
+If I try to run UnitTest.java individually I get,
+
+airbears2-10-142-152-118:gitlet samkhano$ javac UnitTest.java
+UnitTest.java:15: error: cannot find symbol
+        textui.runClasses(UnitTest.class, MainTest.class);
+                                          ^
+  symbol:   class MainTest
+  location: class UnitTest
+1 error
+
+where MainTest.java is my other unit test file. What could be causing this, 
+
+java -ea -cp "..:.:/home/ff/cs61b/lib/*:;..;.:/home/ff/cs61b/lib/*" gitlet.UnitTest
+File does not exist.

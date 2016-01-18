@@ -1,0 +1,65 @@
+#Test functionality of find command.
+> init
+<<<
+D DATE "\d\d\d\d-\d\d-\d\d\s+\d\d:\d\d:\d\d"
+D COMMIT_HEAD "Commit ([a-f0-9]+)[ \t]*\n${DATE}"
+# A full log entry.  Captures the entry. Assume logs messages don't contain
+# ===
+D COMMIT_LOG "(===[ ]*\nCommit [a-f0-9]+[ ]*\n${DATE}[ ]*\n(?:.|\n)*?(?=\Z|\n===))"
+# An arbitrary line of text (works even with ?s)
+D ARBLINE "[^\n]*(?=\n|\Z)"
+# Zero or more arbitrary full lines of text.
+D ARBLINES "(?:(?:.|\n)*(?:\n|\Z)|\A|\Z)"
++ wug.txt wug.txt
++ notwug.txt notwug.txt
+> add wug.txt
+<<<
+> add notwug.txt
+<<<
+> commit "Two files"
+<<<
+> log
+===
+${COMMIT_HEAD}
+${ARBLINES}
+<<<*
+D FINDME "${1}"
++ wug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "changed wug.txt"
+<<<
+> log
+===
+${COMMIT_HEAD}
+${ARBLINES}
+<<<*
+D ONE "${1}"
+> find "files"
+${FINDME}
+<<<*
+> find "Two f"
+${FINDME}
+<<<*
+> find "askjfla"
+Found no commit with that message.
+<<<*
++ wug.txt wug.txt
+> add wug.txt
+<<<
+> commit "changed wug.txt"
+<<<
+> log
+===
+${COMMIT_HEAD}
+${ARBLINES}
+<<<*
+D TWO "${1}"
+> find "changed wug"
+(${TWO}|${ONE})+
+(${TWO}|${ONE})+
+<<<*
+> find chang
+(${TWO}|${ONE})+
+(${TWO}|${ONE})+
+<<<*

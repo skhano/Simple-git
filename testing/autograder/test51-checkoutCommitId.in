@@ -1,0 +1,61 @@
+# Checking out a file given a valid commitId.
+> init
+<<<
+D DATE "\d\d\d\d-\d\d-\d\d\s+\d\d:\d\d:\d\d"
+D COMMIT_HEAD "Commit ([a-f0-9]+)[ \t]*\n${DATE}"
+# A full log entry.  Captures the entry. Assume logs messages don't contain
+# ===
+D COMMIT_LOG "(===[ ]*\nCommit [a-f0-9]+[ ]*\n${DATE}[ ]*\n(?:.|\n)*?(?=\Z|\n===))"
+# An arbitrary line of text (works even with ?s)
+D ARBLINE "[^\n]*(?=\n|\Z)"
+# Zero or more arbitrary full lines of text.
+D ARBLINES "(?:(?:.|\n)*(?:\n|\Z)|\A|\Z)"
++ wug.txt wug.txt
++ notwug.txt notwug.txt
+> add wug.txt
+<<<
+> add notwug.txt
+<<<
+> commit "Two files"
+<<<
+> log
+===
+${COMMIT_HEAD}
+${ARBLINES}
+<<<*
+D TWO "${1}"
++ wug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "changed wug to notwug"
+<<<
+= wug.txt notwug.txt
+> checkout ${TWO} -- wug.txt
+<<<
+> checkout 23421 -- notwug.txt
+No commit with that id exists.
+<<<*
+> checkout ${TWO} -- g.txt
+File does not exist in that commit.
+<<<*
+= wug.txt wug.txt
+> rm wug.txt
+<<<
+> commit "removed wug, should only have notwug"
+<<<
+* wug.txt
+E notwug.txt
+> commit "dfa"
+No changes added to the commit.
+<<<*
++ notwug.txt wug.txt
+> add notwug.txt
+<<<
+> commit "changed notwug to wug"
+<<<
+> checkout ${TWO} -- wug.txt
+<<<
+E wug.txt
+E notwug.txt
+= notwug.txt wug.txt
+= wug.txt wug.txt

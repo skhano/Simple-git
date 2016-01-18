@@ -1,0 +1,33 @@
+# Checking out a file name and making sure the current version has changed.
+> init
+<<<
++ wug.txt wug.txt
++ notwug.txt notwug.txt
+> add wug.txt
+<<<
+> add notwug.txt
+<<<
+> commit "Two files"
+<<<
+> rm wug.txt
+<<<
+* wug.txt
+> status
+=== Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+wug.txt
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+<<<
+> checkout -- l.txt
+File does not exist in that commit.
+<<<*
+> checkout -- wug.txt
+<<<
+= wug.txt wug.txt

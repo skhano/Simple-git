@@ -1,0 +1,42 @@
+# Test the branch fast-forwarded for the merge command.
+> init
+<<<
+D DATE "\d\d\d\d-\d\d-\d\d\s+\d\d:\d\d:\d\d"
+D COMMIT_HEAD "Commit ([a-f0-9]+)[ \t]*\n${DATE}"
+# A full log entry.  Captures the entry. Assume logs messages don't contain
+# ===
+D COMMIT_LOG "(===[ ]*\nCommit [a-f0-9]+[ ]*\n${DATE}[ ]*\n(?:.|\n)*?(?=\Z|\n===))"
+# An arbitrary line of text (works even with ?s)
+D ARBLINE "[^\n]*(?=\n|\Z)"
+# Zero or more arbitrary full lines of text.
+D ARBLINES "(?:(?:.|\n)*(?:\n|\Z)|\A|\Z)"
++ wug.txt wug.txt
++ notwug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "added wug"
+<<<
+> branch merging
+<<<
+> add notwug.txt
+<<<
+> commit "added notwug"
+<<<
++ wug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "changed wug"
+<<<
+> log
+===
+${COMMIT_HEAD}
+${ARBLINES}
+<<<*
+D MASTER "${1}"
+> checkout merging
+<<<
+= wug.txt wug.txt
+> merge master
+Current branch fast-forwarded.
+<<<*
+= wug.txt notwug.txt

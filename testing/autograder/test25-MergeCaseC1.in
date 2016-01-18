@@ -1,0 +1,93 @@
+# Test case C: Any files that were not present at the split point and are present only in the current branch should remain as they are.
+
+############################
+
++ m1.txt originals/m1.txt
++ m2.txt originals/m2.txt
++ m3.txt originals/m3.txt
++ m4.txt originals/m4.txt
++ m5.txt originals/m5.txt
++ c1.txt originals/c1.txt
++ c2.txt originals/c2.txt
++ c3.txt originals/c3.txt
++ c4.txt originals/c4.txt
++ c5.txt originals/c5.txt
+
+############################
+> init
+<<<
++ foo.txt originals/foo.txt
+> add foo.txt
+<<<
++ barr.txt originals/barr.txt
+> add barr.txt
+<<<
+> commit "initial set up"
+<<<
+############################
++ foo.txt originals/barr.txt
+> add foo.txt
+<<<
++ barr.txt originals/foo.txt
+> add barr.txt
+<<<
+> commit "split point version 0 of foo.txt and barr.txt"
+<<<
+############################
+> branch merging
+<<<
+############################
+> branch curr
+<<<
+############################
+> checkout merging
+<<<
++ foo.txt originals/m1.txt
+> add foo.txt
+<<<
+> commit "m1"
+<<<
+#############
++ foo.txt originals/m2.txt
+> add foo.txt
+<<<
+> commit "m2"
+<<<
+#############
++ foo.txt originals/m3.txt
+> add foo.txt
+<<<
+> commit "m3"
+<<<
+#############
++ foo.txt originals/m4.txt
+> add foo.txt
+<<<
+> commit "m4"
+<<<
+* foobarr.txt
+############################
+> checkout curr
+<<<
++ barr.txt originals/c1.txt
+> add barr.txt
+<<<
+> commit "c1"
+<<<
+* foobarr.txt
+#############
++ barr.txt originals/c2.txt
+> add barr.txt
+<<<
++ foobarr.txt originals/foobarr.txt
+> add foobarr.txt
+<<<
+> commit "c2 and foobarr"
+<<<
+############################
+> merge merging
+<<<
+
+##### CASE C ###############
+E foobarr.txt
+= foobarr.txt originals/foobarr.txt
